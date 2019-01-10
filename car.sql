@@ -1,6 +1,5 @@
 
 /*DDL 信息*/------------
-
 CREATE TABLE `car_brand` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
@@ -30,12 +29,14 @@ CREATE TABLE `car_series` (
 
 /*DDL 信息*/------------
 
+DROP TABLE car_model_type ;
+SELECT * from car_model_type  WHERE full_type_name  like  'ALFA%' ;
 CREATE TABLE `car_model_type` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `type_name` varchar(50) NOT NULL COMMENT '车型',
-  `jid` int(11) NOT NULL,
+  `type_name` varchar(20)  COMMENT '车型',
+  `jid` int(11) ,
   `full_type_name` varchar(100) NOT NULL COMMENT '车型全称',
-  `firm_price` char(10) DEFAULT '0.00万' COMMENT '厂商指导价',
+  `firm_price` char(20) DEFAULT '0.00万' COMMENT '厂商指导价',
   `firm` char(20) DEFAULT '' COMMENT '厂商',
   `grade` char(20) DEFAULT '' COMMENT '级别：微型车,小型车,紧凑型车,中型车,中大型车,豪华车,小型SUV,紧凑型SUV,中型SUV,中大型SUV,全尺寸SUV,MPV,跑车,皮卡,微面,轻客,微卡',
   `engine` varchar(40) DEFAULT '' COMMENT '发动机',
@@ -59,25 +60,25 @@ CREATE TABLE `car_model_type` (
   `curb_weight` int(11) DEFAULT '0' COMMENT '整备质量(Kg)',
   `body_structure` varchar(20) DEFAULT '' COMMENT '车身结构',
   `door_number` tinyint(4) DEFAULT '0' COMMENT '车门数(个)',
-  `seat_number` tinyint(4) DEFAULT '0' COMMENT '座位数(个)',
-  `tank_capacity` tinyint(4) DEFAULT '0' COMMENT '油箱容积(L)',
-  `luggage_volume` tinyint(4) DEFAULT '0' COMMENT '行李厢容积(L)',
+  `seat_number` varchar(10) DEFAULT '0' COMMENT '座位数(个)',
+  `tank_capacity` varchar(10) DEFAULT '0' COMMENT '油箱容积(L)',
+  `luggage_volume` varchar(10) DEFAULT '0' COMMENT '行李厢容积(L)',
   `engine_model` varchar(40) DEFAULT '' COMMENT '发动机型号',
   `emission` int(11) DEFAULT '0' COMMENT '排量(mL)',
   `emission_liter` decimal(4,1) DEFAULT '0.0' COMMENT '排量(L)',
   `intake_form` varchar(40) DEFAULT '' COMMENT '进气形式',
   `cylinder_arrange` varchar(40) DEFAULT '' COMMENT '气缸排列形式',
   `cylinder_number` tinyint(4) DEFAULT '0' COMMENT '气缸数(个)',
-  `cylinder_valve` tinyint(4) DEFAULT '0' COMMENT '每缸气门数(个)',
-  `compression_ratio` decimal(6,2) DEFAULT '0.00' COMMENT '压缩比',
+  `cylinder_valve` varchar(10) DEFAULT '0' COMMENT '每缸气门数(个)',
+  `compression_ratio` varchar(10) DEFAULT '0' COMMENT '压缩比',
   `air_supply` varchar(40) DEFAULT '' COMMENT '配气机构',
-  `bore` smallint(6) DEFAULT '0' COMMENT '缸径',
+  `bore` varchar(10) DEFAULT '0' COMMENT '缸径',
   `stroke` decimal(6,2) DEFAULT '0.00' COMMENT '行程',
   `max_horsepower` smallint(6) DEFAULT '0' COMMENT '最大马力(Ps)',
   `max_power` smallint(6) DEFAULT '0' COMMENT '最大功率(kW)',
-  `max_power_speed` smallint(6) DEFAULT '0' COMMENT '最大功率转速(rpm)',
-  `max_torque` smallint(6) DEFAULT '0' COMMENT '最大扭矩(N·m)',
-  `max_torque_speed` smallint(6) DEFAULT '0' COMMENT '最大扭矩转速(rpm)',
+  `max_power_speed` varchar(10) DEFAULT '0' COMMENT '最大功率转速(rpm)',
+  `max_torque` smallint(6) DEFAULT '0' COMMENT '最大扭矩(N?m)',
+  `max_torque_speed` varchar(10) DEFAULT '0' COMMENT '最大扭矩转速(rpm)',
   `engine_specific_technology` varchar(40) DEFAULT '' COMMENT '发动机特有技术',
   `fuel_form` varchar(40) DEFAULT '' COMMENT '燃料形式',
   `fuel_grade` varchar(40) DEFAULT '' COMMENT '燃油标号',
@@ -86,10 +87,10 @@ CREATE TABLE `car_model_type` (
   `block_material` varchar(40) DEFAULT '' COMMENT '缸体材料',
   `environment_standards` varchar(40) DEFAULT '' COMMENT '环保标准',
   `max_motor_power` smallint(6) DEFAULT '0' COMMENT '电动机最大功率(kW)',
-  `max_motor_torque` smallint(6) DEFAULT '0' COMMENT '电动机最大扭矩(N·m)',
+  `max_motor_torque` smallint(6) DEFAULT '0' COMMENT '电动机最大扭矩(N?m)',
   `battery_support_mileage` smallint(6) DEFAULT '0' COMMENT '电池支持最高续航里程(km)',
   `abbreviation` varchar(40) DEFAULT '' COMMENT '简称',
-  `gear_number` tinyint(4) DEFAULT '0' COMMENT '挡位个数',
+  `gear_number` varchar(10) DEFAULT '0' COMMENT '挡位个数',
   `gearbox_type` varchar(40) DEFAULT '' COMMENT '变速箱类型',
   `drive_mode` varchar(40) DEFAULT '' COMMENT '驱动方式',
   `four_wheel_drive_form` varchar(40) DEFAULT '' COMMENT '四驱形式',
@@ -261,4 +262,4 @@ CREATE TABLE `car_model_type` (
   `is_onsale` tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否在售：0-否,1-是',
   `create_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8226 DEFAULT CHARSET=utf8 COMMENT='具体车款'
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='具体车款'

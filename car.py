@@ -100,7 +100,7 @@ for tag in soup.find_all(re.compile("^b")):
 for title in soup.select('title'):
     print title.get_text()
 '''
-
+#获取汽车品牌数据
 def get_brand():
     res = requests.get('https://car.autohome.com.cn/AsLeftMenu/As_LeftListNew.ashx?typeId=1%20&brandId=0%20&fctId=0%20&seriesId=0')
     # print res
@@ -200,7 +200,7 @@ def obtain_series(data):
                         model_name = model.get_text()
                         model_url = model.get("href")
 
-                        # print firm,firm_url,level_name,model_name,model_url
+                        print firm,firm_url,level_name,model_name,model_url
 
                         # rowcount = cur.execute('INSERT INTO car_series (firm,firmurl,levelname,model,modelurl,brandurl) values(%s,%s,%s,%s,%s,%s)', (firm, firm_url, level_name, model_name, model_url, res.url))
                         # conn.commit()
@@ -210,6 +210,7 @@ def obtain_series(data):
 
     # cur.close()
     # conn.close()
+
 
 def obtain_model(series_id):
 
@@ -237,7 +238,7 @@ def obtain_model(series_id):
         model_count = 0
 
         # print year_items
-        for param in ['config','param']:
+        for param in ['param']: #,'config'
 
             # print param
             for year_item in year_items[param]:
@@ -283,41 +284,50 @@ def obtain_model(series_id):
         # print dict_model
         return dict_model
 
-#具体车款存储
+#具体存储同一车系的所有车型
+import copy
 def model_type_save(data):
 
     # print data
 
-    values = []
-    item_key = []
-    pleis = []
-    car_name = ''
-    car_values = ''
+
     for key,item in data.items():
-        # print key,values
-        # print item.keys()
-        # print item.values()
+        values = []
+        item_key = item.keys()
+        car_name = ",".join(item_key)
+        car_values = ','.join(['%s'] * len(item_key))   # format
 
-        # print len(item_key)
-        if len(item_key) == 0:
-            item_key = item.keys()
-            # print item_key
-            for i in item_key:
-                pleis.append('%s')
 
-            car_name = ",".join(item_key)
+        # print item_key
+        # for inkey in item_key:
+        #     pleis.append('%s')
 
-        values.append(tuple(item.values()))
 
-    car_values = ",".join(pleis)
+
+        # "-"置换为""，防止写入数据库抛出类型错误如int
+        # newItem = copy.deepcopy(item)
+        if hasattr(item,'items') and callable(getattr(item, 'items')):
+            for inkey, inItem in item.items():
+                if item[inkey] == '-':
+                    item[inkey] = u'0'
+            # car_values = ",".join(pleis)
+
+            values.append(tuple(item.values()))
+            rowcount = cur.executemany('INSERT INTO car_model_type(' + car_name + ') values(' + car_values + ')',
+                                       values)
+            conn.commit()
+
+
+
+    # car_values = ",".join(pleis)
 
     # print car_name
     # print values
     # print car_values
 
     # str = 'INSERT INTO car_model_type('+car_name+') values('+car_values+')'
-    # print str
-    rowcount = cur.executemany('INSERT INTO car_model_type('+car_name+') values('+car_values+')', values)
+    print str
+    # rowcount = cur.executemany('INSERT INTO car_model_type('+car_name+') values('+car_values+')', values)
     conn.commit()
 
     # cur.close()
